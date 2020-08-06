@@ -15,7 +15,7 @@ from talker.client import get_talker
 from talker.config import AGENT_ACK_TIMEOUT
 from talker.errors import ClientCommandTimeoutError, CommandExecutionError, CommandPidTimeoutError, CommandAlreadyDone, \
     TalkerServerTimeout, TalkerCommandLost, RedisConnectionError
-from tests.utils import get_version
+from tests.utils import get_version, configure_logging
 
 
 def get_uuid() -> str:
@@ -50,6 +50,11 @@ def is_alive_mock(*args):
 
 
 class TestClient(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        configure_logging()
 
     @patch('talker.client.get_redis', my_get_redis)
     def setUp(self):
